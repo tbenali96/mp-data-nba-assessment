@@ -16,6 +16,7 @@ idna==3.3
 imagesize==1.4.1
 Jinja2==3.1.2
 jmespath==1.0.1
+joblib==1.1.0
 kaleido==0.2.1
 lightgbm==3.3.2
 MarkupSafe==2.1.1
@@ -23,6 +24,7 @@ mccabe==0.6.1
 numpy==1.23.2
 packaging==21.3
 pandas==1.4.3
+plotly==5.10.0
 pyasn1==0.4.8
 pycodestyle==2.8.0
 pyflakes==2.4.0
@@ -38,6 +40,7 @@ rsa==4.7.2
 s3transfer==0.6.0
 scikit-learn==1.1.2
 scipy==1.9.0
+setuptools==62.3.3
 six==1.16.0
 snowballstemmer==2.2.0
 Sphinx==5.1.1
