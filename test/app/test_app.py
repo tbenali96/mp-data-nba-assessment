@@ -11,7 +11,9 @@ class TestAPI:
         response = client.get("/")
 
         # then
-        assert response.json() == {"message": "Welcome to your NBA Players Classification API"}
+        assert response.json() == {
+            "message": "Welcome to your NBA Players Classification API"
+        }
 
     def test_predict_player_career(self):
         # given
@@ -20,7 +22,8 @@ class TestAPI:
 
         # when
         response = client.post(
-            "/predict", files={"file": ("filename", open(sample_filepath, "rb"), "text/csv")}
+            "/predict",
+            files={"file": ("filename", open(sample_filepath, "rb"), "text/csv")},
         )
 
         # then
@@ -33,7 +36,8 @@ class TestAPI:
 
         # when
         response = client.post(
-            "/predict", files={"file": ("filename", open(sample_filepath, "rb"), "text/plain")}
+            "/predict",
+            files={"file": ("filename", open(sample_filepath, "rb"), "text/plain")},
         )
 
         # then

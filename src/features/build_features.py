@@ -14,11 +14,15 @@ def remove_irrelevant_columns(df: pd.DataFrame, columns: list) -> pd.DataFrame:
 
 
 def fill_na_with_mean(df: pd.DataFrame, col_with_nan_values: str) -> pd.DataFrame:
-    df[col_with_nan_values] = df[col_with_nan_values].fillna(df[col_with_nan_values].mean())
+    df[col_with_nan_values] = df[col_with_nan_values].fillna(
+        df[col_with_nan_values].mean()
+    )
     return df
 
 
-def build_features(raw_data: pd.DataFrame, train_or_test: str, scaler_path: str) -> pd.DataFrame:
+def build_features(
+    raw_data: pd.DataFrame, train_or_test: str, scaler_path: str
+) -> pd.DataFrame:
     data = remove_irrelevant_columns(raw_data, columns=IRRELEVANT_COLUMNS)
     data = fill_na_with_mean(data, col_with_nan_values='3P%')
     data = remove_irrelevant_columns(data, columns=CORRELATED_COLUMNS_TO_DROP)
@@ -39,8 +43,8 @@ def build_features(raw_data: pd.DataFrame, train_or_test: str, scaler_path: str)
 if __name__ == '__main__':
     raw = pd.read_csv("../../data/raw/nba_logreg.csv")
     logging.info("Building the features")
-    preprocessed_data = build_features(raw_data=raw, train_or_test="train", scaler_path='../../models/scaler.pkl')
+    preprocessed_data = build_features(
+        raw_data=raw, train_or_test="train", scaler_path='../../models/scaler.pkl'
+    )
     logging.info("Feature Engineering done")
     preprocessed_data.to_csv("../../data/processed/processed_data.csv", index=False)
-
-

@@ -14,12 +14,18 @@ def plot_correlation_matrix(df: pd.DataFrame, path: str):
 
 
 def plot_histogram_points_per_game(df: pd.DataFrame, path: str, target_col: str):
-    fig = px.histogram(df, x='PTS', color=target_col, title='Histogram of points per game')
+    fig = px.histogram(
+        df, x='PTS', color=target_col, title='Histogram of points per game'
+    )
     fig.write_image(f"{path}/points_per_game.png")
 
 
 if __name__ == '__main__':
     data = pd.read_csv("../../data/raw/nba_logreg.csv")
-    plot_target_distribution(df=data, path="../../visualizations", target_col='TARGET_5Yrs')
+    plot_target_distribution(
+        df=data, path="../../visualizations", target_col='TARGET_5Yrs'
+    )
     plot_correlation_matrix(df=data, path="../../visualizations")
-    plot_histogram_points_per_game(df=data, path="../../visualizations", target_col='TARGET_5Yrs')
+    plot_histogram_points_per_game(
+        df=data, path="../../visualizations", target_col='TARGET_5Yrs'
+    )

@@ -7,11 +7,13 @@ from sklearn.ensemble import RandomForestClassifier
 def train_model(dataframe: pd.DataFrame, target_column: str) -> RandomForestClassifier:
     X = dataframe.drop(columns=[target_column])
     y = dataframe[target_column]
-    model = RandomForestClassifier(random_state=0,
-                                   criterion="gini",
-                                   min_samples_split=2,
-                                   n_estimators=150,
-                                   class_weight='balanced')
+    model = RandomForestClassifier(
+        random_state=0,
+        criterion="gini",
+        min_samples_split=2,
+        n_estimators=150,
+        class_weight='balanced',
+    )
     model.fit(X.values, y)
     return model
 
