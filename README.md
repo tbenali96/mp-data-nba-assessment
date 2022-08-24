@@ -6,18 +6,16 @@ Predict the career length of NBA players
 Project Organization
 ------------
 
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
+    ├── Makefile           <- Makefile with commands like `make data` or `make train`.
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
     │   ├── processed      <- The final, canonical data sets for modeling.
+    │   ├── test           <- Sample data for tests.
     │   └── raw            <- The original, immutable data dump.
     │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
+    ├── models             <- Trained and serialized models, model predictions, or model summaries.
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    ├── notebooks          <- Jupyter notebooks.
     │
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
@@ -27,22 +25,28 @@ Project Organization
     ├── src                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module
     │   │
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
+    │   ├── features       <- Script to turn raw data into features for modeling
     │   │   └── build_features.py
+    │   │
+    │   ├── app            <- Script to launch the FastAPI 
+    │   │   └── app.py
+    │   │
+    │   ├── visualizations <- Script to create visualizations
+    │   │   └── create_visualizations.py
     │   │
     │   └── models         <- Scripts to train models and then use trained models to make
     │       │                 predictions
     │       ├── predict_model.py
     │       └── train_model.py
     │
-    │
     ├── visualizations     <- Vizualisations.
     │
-    ├── test               <- Unit tests for the source code. 
+    ├── test               <- Directory containing unit tests for each directory in the source code. 
+    ├── setup.cfg          <- Configuration file
+    ├── .pre-commit-config.yaml     <- Configuration file for creating a pre-commit hook to evaluate the code's format with black and flake8
+    ├── pyproject.toml              <- Configuration files
     │
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+    └── .gitignore         <- A gitignore file
 
 The following are some command lines to help use the source code of this project : 
 
