@@ -12,13 +12,13 @@ def train_model(dataframe: pd.DataFrame, target_column: str) -> RandomForestClas
                                    min_samples_split=2,
                                    n_estimators=150,
                                    class_weight='balanced')
-    model.fit(X, y)
-    dump(model, '../../models/random_forest_model.pkl')
+    model.fit(X.values, y)
     return model
 
 
 if __name__ == '__main__':
     data = pd.read_csv("../../data/processed/processed_data.csv")
     logging.info("Training ...")
-    preprocessed_data = train_model(dataframe=data, target_column='TARGET_5Yrs')
+    model = train_model(dataframe=data, target_column='TARGET_5Yrs')
+    dump(model, '../../models/random_forest_model.pkl')
     logging.info("Training done")

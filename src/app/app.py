@@ -27,7 +27,6 @@ async def prediction(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="File provided is not a CSV file.")
     content = await file.read()
     data = pd.read_csv(io.BytesIO(content))
-    print(data.head())
     response = predict_player_career(data, "../../models/random_forest_model.pkl", "../../models/scaler.pkl")
     # return the response as a JSON
     return {

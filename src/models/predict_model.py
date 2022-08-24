@@ -10,7 +10,7 @@ def predict_player_career(data_for_prediction: pd.DataFrame, model_path: str, sc
     data = build_features(raw_data=data_for_prediction, train_or_test="test", scaler_path=scaler_path)
     logging.info("Feature Engineering done")
     model = load(model_path)
-    return model.predict(data)
+    return model.predict(data.values)
 
 
 if __name__ == '__main__':
