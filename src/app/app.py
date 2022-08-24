@@ -1,8 +1,19 @@
+import io
+from typing import List
 import pandas as pd
-from fastapi import FastAPI
-from src.models.predict_model import predict
+import uvicorn
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from pydantic import BaseModel
+
+from src.models.predict_model import predict_player_career
 
 app = FastAPI()
+
+
+class Prediction(BaseModel):
+    filename: str
+    content_type: str
+    predictions: List[dict] = []
 
 
 @app.get("/")
@@ -10,19 +21,22 @@ def root():
     return {"message": "Welcome to your NBA Players Classification API"}
 
 
-@app.get("/predict_player_career")
-def predict_player_career(payload):
-    data = pd.DataFrame.from_dict(eval(payload))
-    print(data)
-    predictions = predict(data_for_prediction=data,
-                          model_path="../../models/random_forest_model.pkl")
-    return {"predictions": predictions}
+@app.post("/predict")
+async def prediction(file: UploadFile = File(...)):
+    # Ensure that the file is a CSV
+    if not file.content_type == "text/csv":
+        raise HTTPException(status_code=400, detail="File provided is not a CSV file.")
+    content = await file.read()
+    data = pd.read_csv(io.BytesIO(content))
+    print(data.head())
+    response = predict_player_career(data, "../../models/random_forest_model.pkl", "../../models/scaler.pkl")
+    # return the response as a JSON
+    return {
+        "filename": file.filename,
+        "content_type": file.content_type,
+        "predictions": tuple(response),
+    }
 
 
-'''
-{"Name": ["Brandon Ingram"], "GP": [36], "MIN": [27.4], "PTS": [7.4],
-                   "FGM": [2.6], "FGA": [7.6], "FG%": [34.7], "3P Made": [0.5], "3PA": [2.1],
-                   "3P%": [25.0], "FTM": [1.6], "FTA": [2.3], "FT%": [69.9], "OREB": [0.7],
-                   "DREB": [3.4], "REB": [4.1], "AST": [1.9], "STL": [0.4], "BLK": [0.4],
-                   "TOV": [1.3]}
-'''
+if __name__ == "__main__":
+    uvicorn.run("src.app.app:app --reload", host="127.0.0.1", port=8000)

@@ -18,7 +18,7 @@ def fill_na_with_mean(df: pd.DataFrame, col_with_nan_values: str) -> pd.DataFram
     return df
 
 
-def build_features(raw_data: pd.DataFrame, train_or_test: str) -> pd.DataFrame:
+def build_features(raw_data: pd.DataFrame, train_or_test: str, scaler_path: str) -> pd.DataFrame:
     data = remove_irrelevant_columns(raw_data, columns=IRRELEVANT_COLUMNS)
     data = fill_na_with_mean(data, col_with_nan_values='3P%')
     data = remove_irrelevant_columns(data, columns=CORRELATED_COLUMNS_TO_DROP)
@@ -27,10 +27,10 @@ def build_features(raw_data: pd.DataFrame, train_or_test: str) -> pd.DataFrame:
         numeric_columns = features.select_dtypes(['int64', 'float64']).columns
         scaler = StandardScaler()
         scaler.fit(data[numeric_columns])
-        dump(scaler, open('../../models/scaler.pkl', 'wb'))
+        dump(scaler, open(scaler_path, 'wb'))
     if train_or_test == 'test':
         numeric_columns = data.select_dtypes(['int64', 'float64']).columns
-        with open('../../models/scaler.pkl', 'rb') as f:
+        with open(scaler_path, 'rb') as f:
             scaler = pickle.load(f)
     data[numeric_columns] = scaler.transform(data[numeric_columns])
     return data
@@ -39,7 +39,7 @@ def build_features(raw_data: pd.DataFrame, train_or_test: str) -> pd.DataFrame:
 if __name__ == '__main__':
     raw = pd.read_csv("../../data/raw/nba_logreg.csv")
     logging.info("Building the features")
-    preprocessed_data = build_features(raw_data=raw, train_or_test="train")
+    preprocessed_data = build_features(raw_data=raw, train_or_test="train", scaler_path='../../models/scaler.pkl')
     logging.info("Feature Engineering done")
     preprocessed_data.to_csv("../../data/processed/processed_data.csv", index=False)
 
