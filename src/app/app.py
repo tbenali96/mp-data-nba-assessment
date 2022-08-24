@@ -1,7 +1,6 @@
 import io
 from typing import List
 import pandas as pd
-import uvicorn
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
 
@@ -36,7 +35,3 @@ async def prediction(file: UploadFile = File(...)):
         "content_type": file.content_type,
         "predictions": tuple(response),
     }
-
-
-if __name__ == "__main__":
-    uvicorn.run("src.app.app:app --reload", host="127.0.0.1", port=8000)
